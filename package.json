@@ -1,0 +1,19 @@
+{
+  "name": "unit-testing-with-qunit",
+  "version": "0.0.0",
+  "description": "Where I learn and practice some unit testing with qunit (and play some more with Foundation).",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/knock--/unit-testing-with-qunit.git"
+  },
+  "author": "Theo Coukoulis",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/knock--/unit-testing-with-qunit/issues"
+  },
+  "homepage": "https://github.com/knock--/unit-testing-with-qunit#readme"
+}

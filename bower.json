@@ -1,0 +1,21 @@
+{
+  "name": "unit-testing-with-qunit",
+  "version": "0.0.0",
+  "description": "Where I learn and practice some unit testing with qunit (and play some more with Foundation).",
+  "main": "index.html",
+  "authors": [
+    "Theo Coukoulis"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "foundation": "~5.5.2",
+    "qunit": "~1.18.0"
+  }
+}

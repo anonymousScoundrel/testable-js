@@ -13,12 +13,452 @@
         <link rel="stylesheet" href="bower_components/qunit/qunit/qunit.css">
         <link rel="stylesheet" href="css/app.css">
         <link rel="shortcut icon" href="http://localhost/favicon.ico">
+        <link
+            href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,400italic"
+            rel="stylesheet"
+            type="text/css">
     </head>
     <body>
-        Hello, world!
+        <div class="row">
+            <div class="small-12 text-center">
+                <h1>Adventures in Testable JavaScript</h1>
+            </div>
+            <div class="small-12 text-center">
+                <h6>...or where I learn to stop hacking and start developing.</h6>
+            </div>
+        </div>
+        <div class="row">
+            <div class="small-12">
+                <div class="panel callout radius">
+                    <p>
+                        I am constantly trying to learn new things in web development. While unit testing was always on my list, for some reason it has never pushed to the fore. Suddenly faced with the possibility of needing a new job, I've noticed this isn't exactly something that is considered nice-to-have. It's required.
+                    </p>
+                    <p>
+                        Here is the great repository of my knowledge as I force the understanding of how to write good, testable JavaScript into my hack-riddled brain.
+                    </p>
+                    <p>
+                        <em>
+                            I'm also going to play with some Foundation while I'm here.
+                        </em>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div id="first-ride" class="row" data-equalizer>
+            <div
+                id="first-stop"
+                class="small-4 columns">
+                <div class="panel callout radius" data-equalizer-watch>
+                    <p>
+                        The most important thing I have learned so far is that all that code I have written so far, is legacy code.
+                    </p>
+                    <p>
+                        That's not to say it's old or that it doesn't employ the latest methods and features. Instead it doesn't have any tests built in to it. And no programmer who comes after me is going to want to fix it because it's just easier to rewrite code that doesn't have tests.
+                    </p>
+                </div>
+            </div>
+            <div class="small-4 columns">
+                <div
+                    id="second-stop"
+                    class="panel callout radius"
+                    data-equalizer-watch>
+                    <p>
+                        There are three keys to testable JavaScript (hereafter referred to as JS) code:
+                    </p>
+                    <p>
+                        Make the code testable. Your code is, hopefully, going to be used. If that's true, the eventually the end-user becomes a tester. The end-user shouldn't be the first person to test your code.
+                    </p>
+                    <p>
+                        Make the code maintainable. You won't always be the one maintaining the code. And even if you were, there is no guarantee that you'll understand your code a month later, let alone a year later.
+                    </p>
+                    <p>
+                        Make the code understandable. How long does it take to <a href="https://encrypted.google.com/search?hl=en&q=grok" target="_blank">grok</a> your code? If it's too complicated or messy it will be rewritten, making it legacy code.
+                    </p>
+                </div>
+            </div>
+            <div class="small-4 columns">
+                <div
+                    id="third-stop"
+                    class="panel callout radius"
+                    data-equalizer-watch>
+                    <p>
+                        Testable, maintainable, and understandable code all looks the same, which is good.
+                    </p>
+                    <p>
+                        There are a number of approaches to attaining all three states, including test driven and/or behavioral driven development. But it's possible to make testable, maintainable and understandable code in isolation.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="small-12">
+                <div class="panel callout radius clearfix">
+                    <h2>Code Complexity</h2>
+                    <p>
+                        Complex code is just bad code. Since we spend more time debugging and testing code than we do actually writing it, if we can make our code simpler we should.
+                    </p>
+                    <p>
+                        Sure some algorithms are complicated, but everything else doesn't have to be. Let's examine some ways to manage our code's complexity.
+                    </p>
+                    <h3>Code Size and Separation of Concerns</h3>
+                    <p>
+                        The more code you have the more chance your code has bugs, that's just a fact of life.
+                    </p>
+                    <p>
+                        That being said, just because our code is extensive doesn't mean our methods and functions must be. Keep in mind while writing code that our ultimate (and perhaps illusory) goal is to write our methods and functions to have no side-effects and return a value that is dependent upon the arguments passed to it.
+                    </p>
+                    <p>
+                        We can help optimize our code, if not shrink it, by separating out the objectives of our functions. We can write functions that <em>do</em> something (like a setter) called a <em>command</em>, or write a function that <em>returns</em> something (like a getter) called a query.
+                    </p>
+                    <p>
+                        When testing commands are tested using mocks and queries are tested using stubs.
+                    </p>
+                    <button
+                        class="close-parent button small right">
+                        Okay, got it.
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="small-12">
+                <div class="panel callout radius clearfix">
+                    <p>
+                        A good JS example of this sort of command/query separation would entail returning a self-invoking function that returns a function with already defined methods for setting and getting and includes a call to Object.preventExtensions that is passed the current object scope, which will prevent users from tampering with our object properties.
+                    </p>
+                    <div class="example-switch">
+                        <div class="clearfix">
+                            <h6 class="subheader clearfix">
+                                <p class="right">
+                                    See the example
+                                </p>
+                            </h6>
+                            <fieldset class="switch radius tiny right" tabindex="0">
+                                <input
+                                    id="command-query-example"
+                                    class="code-example-switch"
+                                    type="checkbox">
+                                <label for="command-query-example"></label>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <pre class="example-code hide">
+                        var Example = {function () {
+                            return function () {
+                                var defaultVal = 'hello';
+
+                                this.validate = function  (val) {
+                                    // Throw error if val is bad
+                                };
+
+                                this.setDefault = function (val) {
+                                    this.validate(val);
+                                    defaultVal = val;
+                                };
+
+                                this.getDefault = function () {
+                                    return defaultVal;
+                                };
+                                Object.preventExtensions(this);
+                            };
+                        }()};
+                    </pre>
+                    <button class="close-parent button small right">
+                        Roger.
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="small-12">
+                <div class="panel callout radius clearfix">
+                    <h3>Linting</h3>
+                    <p>
+                        Linters check your code for errors, bad practices and overall sanity. JSLint or JSHint are both good. I use JSHint.
+                    </p>
+                    <p>
+                        A couple of linting standards to keep your code clean is to declare all your variables (even those in a for loop) at the top of the function, since JS is going to hoist it anyway internally.
+                    </p>
+                    <p>
+                        Also using the ++ or -- incrementer/decrementer is considered bad practice. It's confusing and there is no real need for it. Use += 1 instead.
+                    </p>
+                    <p>
+                        Another mental thought process to keep in mind when writing code is to use idiomatic JS. That is to say use the tools built in to the language. An example is the forEach method. It's part of ECMA5, and even if you are concerned about it being available in all browsers, then just bring in the official code and include it in your site.
+                    </p>
+                    <button class="close-parent button small right">
+                        Right.
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="small-12">
+                <div class="panel callout radius clearfix">
+                    <h3>Cyclomatic Complexity</h3>
+                    <p>
+                        This is a fancy way to say the number of ways through your code tree. This can be measured using jsmeter from NPM. For example:
+                    </p>
+                    <pre class="example-code">
+                        function simple (a) {
+                            if (a) {
+                                return a;
+                            } else {
+                                return null;
+                            }
+                        }
+                    </pre>
+                    <p>
+                        The above code has a Cyclomatic complexity of 2. It eithers returns a or null. So two unit tests would be needed.
+                    </p>
+                    <p>
+                        Is there an optimal cyclomatic complexity?
+                    </p>
+                    <p>
+                        Ideally we want to shoot for around 10 but no more than 25. See the table below that illustrates the likelihood of introducing a new bug when fixing complex code.
+                    </p>
+                    <table
+                        class="basic-table"
+                        role="grid"
+                        summary="The likelihood of introducing a new bug varies by complexity. Each row lists cyclomatic complexity compared to the percentage change of introducing a new bug when fixing an existing one.">
+                        <thead>
+                            <tr>
+                                <th>Cyclomatic Complexity</th>
+                                <th>Chance for a new bug</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1-10</td>
+                                <td>5%</td>
+                            </tr>
+                            <tr>
+                                <td>20-30</td>
+                                <td>20%</td>
+                            </tr>
+                            <tr>
+                                <td>&gt; 50</td>
+                                <td>40%</td>
+                            </tr>
+                            <tr>
+                                <td>Close to 100</td>
+                                <td>60%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p>
+                        Luckily there are some tools we can use to check cyclomatic complexity. The node module jscheckstyle is a good starting place. It analyzes each method and reports on its complexity (as well as the number of lines for each function--but this counts empty lines also).
+                    </p>
+                    <p>
+                        The jscheckstyle module can also output JSON or HTML using the respective --json or --html command line flags.
+                    </p>
+                    <p>
+                        This tool gives us a good initial view of our code's complexity.
+                    </p>
+                    <button class="close-parent button small right">
+                        Moving on...
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="small-12">
+                <div class="panel callout radius clearfix">
+                    <h3>Reuse</h3>
+                    <p>
+                        Most JS code isn't going to be unique to the application you are writing. You will <em>always</em> be piggy-backing off of the work others have done before you, whether that be using jQuery to node.js.
+                    </p>
+                    <p>
+                        This is not bad. This is smart. Focus on what your app is supposed to do and trust in the work of those who are doing the same when they work on the library you depend on! You really don't want to reinvent the wheel.
+                    </p>
+                    <p>
+                        The NPM registry has loads of prior work to not only use, but also to study. Take advantage of that resource.
+                    </p>
+                    <p>
+                        It's also important to reuse our own code. Keep your code DRY (don't repeat yourself). This pays dividends in the long run.
+                    </p>
+                    <button class="close-parent button small right">
+                        Excellent.
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="small-12">
+                <div class="panel callout radius clearfix">
+                    <h3>Fan-Out</h3>
+                    <p>
+                        This fancy term refers to the number of modules or objects our function directly (or indirectly) depends on.
+                    </p>
+                    <p>
+                        Why is this important?
+                    </p>
+                    <p>
+                        This is important to know because some very smart people in the 80s determined mathematically that the amount of fan-out a function or module has, the more likely it is to have bugs.
+                    </p>
+                    <p>
+                        While fan-out is not really a great thing, being able to identify fan-out is amazing. It let's us know weak points in our code, places that we know we will be visiting later for bug fixes. It also points to places where we are trying to do too much and should rethink or refactor our code.
+                    </p>
+                    <p>
+                        What is the definitin of fan-out?
+                    </p>
+                    <p>
+                        <em>The fan-out of procedure A is the number of <b>local flows from procedure A</b> plus <b>the number of data structures which procedure A updates</b>.</em>
+                    </p>
+                    <p>
+                        We highlighted the important bits. This boils down to, respectively, what does your function or module require and what does it affect. And ultimately we want to make this number of things we require or affect as low as possible within reason.
+                    </p>
+                    <p>
+                        These smart guys in the 80's determined that not only is fan-out a contributor to complexity, so is the number of lines in a function or module (the more lines the more complicated), but also the fewer the functions in a module the more complicated it is. Beware of huge functions!
+                    </p>
+                    <p>
+                        Another way of looking at fan-out is to think of it as the running count of external things (objects and modules) to keep track of within a given function.
+                    </p>
+                    <p>
+                        Fan-out of greater than 7 will be very difficult to keep straight. Some people say even 4 is hard to keep track of. Try to keep your fan-out number low.
+                    </p>
+                    <buttton class="close-parent button small right">
+                        What's next?
+                    </buttton>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="small-12">
+                <div class="panel callout radius clearfix">
+                    <h3>Fan-In</h3>
+                    <p>
+                        The definition of fan-in is:
+                    </p>
+                    <p>
+                        The fan-in of procedure A is the number of local flows into procedure A plus the number of data structures from which procedure A retrieves information.
+                    </p>
+                    <p>
+                        Fan-in is a bit trickier than fan-out. It represents a good thing, usually. We want our functions and methods to reuse code. Code reuse is great. We can even check functions and methods that have lower or no fan-in to make sure they are not duplicating code. High level, abstracted code should have lower or zero fan-in.
+                    </p>
+                    <button class="close-parent button small right">
+                        I suppose that makes sense.
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="small-12">
+                <div class="panel callout radius clearfix">
+                    <h3>Coupling</h3>
+                    <p>
+                        Coupling is the number of modules or objects our function or method relies upon. This sounds a lot like fan-out, but it's not entirely the same. We can hide our fan-out. We cannot hide our coupling. Coupling is rated tight to loose.
+                    </p>
+                    <p>
+                        We don't want tight coupling. Here are the six types of coupling from tightest to loosest.
+                    </p>
+                    <h4>Content Coupling</h4>
+                    <p>
+                        This is the tightest form of coupling, rated a five.
+                    </p>
+                    <p>
+                        Content coupling happens when you call a method of an external object or modify its state by creating, editing or deleting one of its properties. Any of the following would be an example of content coupling:
+                    </p>
+                    <pre class="example-code">
+                        // Let's make an object
+                        var obj = {
+                            sayHello: function () {
+                                return 'Hello';
+                            }
+                        };
+
+                        // If you do this in your function,
+                        // it's content coupling.
+                        obj.prototype.sayGoodbye = function () {
+                            return 'Goodbye';
+                        };
+                    </pre>
+                    <h4>Common Coupling</h4>
+                    <p>
+                        Common coupling scores a rating of four. When two functions or methods share a global variable, they are common coupled.
+                    </p>
+                    <pre class="example-code">
+                        // Here's an example of some common coupling.
+                        var x = function () {
+                            var x = "Hello!";
+                            var y = function () {
+                                console.log(x);
+                            };
+                            var z = function () {
+                                return x;
+                            }
+                        };
+                        // Both functions y an z are commonly coupled.
+                    </pre>
+                    <h4>Control Coupling</h4>
+                    <p>
+                        Control coupling scores a three rating. Here we control how an external object behaves by passing it some flag or parameter options. Here's an example of that:
+                    </p>
+                    <pre class="example-code">
+                        function controlCoupling (arg) {
+                            // do something
+                        }
+                        controlCoupling( { status: 'value' } );
+                    </pre>
+                    <h4>Stamp Coupling</h4>
+                    <p>
+                        Stamp coupling scores a two, and it's basically a poorly used version of control coupling, in my opinion.
+                    </p>
+                    <p>
+                        Basically, if an object value is passed as an argument to a function or method is only partially used, it's a stamp coupling. This appears lame, but maybe I am misunderstanding it.
+                    </p>
+                    <pre class="example-code">
+                        function controlCoupling (arg) {
+                            // do something that ignores the x property
+                        }
+                        controlCoupling( { status: 'value', x: 'whatever' } );
+                    </pre>
+                    <h4>Data Coupling</h4>
+                    <p>
+                        Data coupling scores a one. This is because data coupling is sort of coupling that exists when the only things two objects need to do is communicate between each other rather than transfer control between one another.
+                    </p>
+                    <p>
+                        I have no example of what something like that looks like.
+                    </p>
+                    <h4>No Coupling</h4>
+                    <p>
+                        This scores a zero, because it features zero coupling between objects, but I have no idea of what an example of this would look like.
+                    </p>
+                    <button class="close-parent button small right">
+                        Okay.
+                    </button>
+                </div>
+            </div>
+        </div>
+        <ol class="joyride-list" data-joyride>
+            <li
+                data-id="first-stop"
+                data-text="next"
+                data-options="tip_location: left; prev_button: false">
+                <p>
+                    Makes sense, right?
+                </p>
+            </li>
+            <li
+                data-id="second-stop"
+                data-text="next"
+                data-options="tip_location: left;">
+                <p>
+                    What are the three keys?
+                </p>
+            </li>
+            <li
+                data-id="third-stop"
+                data-text="next"
+                data-options="tip_location: left;">
+                <p>
+                    So far, so good.
+                </p>
+            </li>
+        </ol>
         <script src="bower_components/jquery/dist/jquery.min.js"></script>
         <script src="bower_components/foundation/js/foundation.min.js"></script>
         <script src="bower_components/qunit/qunit/qunit.js"></script>
         <script defer src="js/app.js"></script>
+        <script defer src="js/tests.js"></script>
     </body>
 </html>

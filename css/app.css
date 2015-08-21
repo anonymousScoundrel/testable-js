@@ -1,4 +1,64 @@
 body {
-  background-color: #222;
+  margin-top: 2em;
+  background: #36454F;
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  font-style: normal;
+}
+
+h1,
+h6 {
   color: #EEE;
+}
+
+.panel.callout {
+  background: #E87600;
+  border: none;
+}
+
+.panel.callout a:not(.button) {
+  color: #E9B200;
+}
+
+.panel.callout a:not(.button):hover {
+  color: #FFF;
+}
+
+.panel.callout a:not(.button):visited {
+  color: #822;
+}
+
+.example-switch fieldset,
+.example-switch p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.example-code {
+  color: #0A0;
+  background: #333;
+  border: 1px solid #EEE;
+  border-radius: 8px;
+  padding: 1em;
+  margin-bottom: 1em;
+}
+
+.basic-table {
+  margin: 0 auto;
+  border: none;
+  background: #999;
+  margin-bottom: 1em;
+}
+
+.basic-table tr td {
+  color: #EEE;
+}
+
+.basic-table th {
+  background: #666;
+}
+
+.basic-table tr:nth-of-type(even) {
+  background: #333;
 }
